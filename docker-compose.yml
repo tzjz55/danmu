@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  telegram-bot:
+    build: .
+    container_name: danmaku-bot
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - DANMAKU_API_KEY=${DANMAKU_API_KEY}
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - DANMAKU_BASE_URL=http://154.12.85.19:7768
+      - ADMIN_USER_IDS=${ADMIN_USER_IDS}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

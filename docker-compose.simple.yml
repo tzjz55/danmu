@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  danmaku-bot:
+    build: .
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - DANMAKU_API_KEY=${DANMAKU_API_KEY}
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - ADMIN_USER_IDS=${ADMIN_USER_IDS}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
