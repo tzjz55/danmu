@@ -4,9 +4,12 @@ from loguru import logger
 from typing import Dict, Any
 
 from managers.user_manager import user_manager
+<<<<<<< HEAD
 from managers.template_manager import template_manager
 from managers.queue_manager import danmaku_queue
 from managers.content_filter import content_filter
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 from utils.keyboards import keyboards
 from clients.danmaku_client import danmaku_client
 from clients.tmdb_client import tmdb_client
@@ -317,6 +320,7 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
         )
     
     elif user_data.get('waiting_for_danmaku_text'):
+<<<<<<< HEAD
         # 处理普通弹幕发送
         user_data['waiting_for_danmaku_text'] = False
         style = user_data.get('danmaku_style', 'normal')
@@ -371,6 +375,19 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
             
             await update.message.reply_text(
                 success_msg,
+=======
+        # 处理弹幕发送
+        user_data['waiting_for_danmaku_text'] = False
+        
+        await update.message.reply_text("💬 正在发送弹幕...")
+        
+        async with danmaku_client as client:
+            send_result = await client.send_danmaku(message_text)
+        
+        if send_result['success']:
+            await update.message.reply_text(
+                f"✅ 弹幕发送成功！\n内容：{message_text}",
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
                 reply_markup=keyboards.danmaku_control()
             )
         else:
@@ -383,6 +400,7 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
         await user_manager.log_operation(
             user.id, 
             'send_danmaku', 
+<<<<<<< HEAD
             {'original': message_text, 'filtered': final_text, 'filter_action': filter_result.action.value}, 
             'success' if send_result['success'] else f"failed: {send_result['message']}"
         )
@@ -562,6 +580,11 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
                 f"❌ 处理规则时发生错误: {str(e)}",
                 reply_markup=keyboards.back_to_content_moderation()
             )
+=======
+            message_text, 
+            'success' if send_result['success'] else f"failed: {send_result['message']}"
+        )
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
     
     else:
         # 默认回复

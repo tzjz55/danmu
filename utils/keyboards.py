@@ -3,6 +3,7 @@ from typing import List, Tuple, Optional
 
 
 class KeyboardBuilder:
+<<<<<<< HEAD
     """优化的键盘布局构建器"""
     
     # 常用图标常量
@@ -50,12 +51,32 @@ class KeyboardBuilder:
             [
                 InlineKeyboardButton("🎬 电影搜索", callback_data="movie_search"),
                 InlineKeyboardButton("❓ 帮助指南", callback_data="help_menu")
+=======
+    """键盘布局构建器"""
+    
+    @staticmethod
+    def main_menu() -> InlineKeyboardMarkup:
+        """主菜单键盘"""
+        keyboard = [
+            [
+                InlineKeyboardButton("📊 服务器状态", callback_data="status"),
+                InlineKeyboardButton("🎬 电影搜索", callback_data="movie_search")
+            ],
+            [
+                InlineKeyboardButton("🎯 弹幕管理", callback_data="danmaku_control"),
+                InlineKeyboardButton("⚙️ 设置", callback_data="settings")
+            ],
+            [
+                InlineKeyboardButton("📋 操作日志", callback_data="logs"),
+                InlineKeyboardButton("❓ 帮助", callback_data="help")
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
             ]
         ]
         return InlineKeyboardMarkup(keyboard)
     
     @staticmethod
     def server_status() -> InlineKeyboardMarkup:
+<<<<<<< HEAD
         """服务器状态键盘（简化版）"""
         keyboard = [
             [
@@ -94,6 +115,45 @@ class KeyboardBuilder:
     @staticmethod
     def danmaku_advanced() -> InlineKeyboardMarkup:
         """弹幕高级设置键盘"""
+=======
+        """服务器状态键盘"""
+        keyboard = [
+            [
+                InlineKeyboardButton("🔄 刷新", callback_data="refresh_status"),
+                InlineKeyboardButton("📈 详细信息", callback_data="detailed_status")
+            ],
+            [
+                InlineKeyboardButton("🏠 返回主菜单", callback_data="main_menu")
+            ]
+        ]
+        return InlineKeyboardMarkup(keyboard)
+    
+    @staticmethod
+    def danmaku_control() -> InlineKeyboardMarkup:
+        """弹幕控制键盘"""
+        keyboard = [
+            [
+                InlineKeyboardButton("⏸️ 暂停弹幕", callback_data="pause_danmaku"),
+                InlineKeyboardButton("▶️ 恢复弹幕", callback_data="resume_danmaku")
+            ],
+            [
+                InlineKeyboardButton("🚫 清空弹幕", callback_data="clear_danmaku"),
+                InlineKeyboardButton("💬 发送弹幕", callback_data="send_danmaku")
+            ],
+            [
+                InlineKeyboardButton("⚙️ 显示设置", callback_data="display_settings"),
+                InlineKeyboardButton("🎨 样式设置", callback_data="style_settings")
+            ],
+            [
+                InlineKeyboardButton("🏠 返回主菜单", callback_data="main_menu")
+            ]
+        ]
+        return InlineKeyboardMarkup(keyboard)
+    
+    @staticmethod
+    def display_settings() -> InlineKeyboardMarkup:
+        """显示设置键盘"""
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
         keyboard = [
             [
                 InlineKeyboardButton("🐌 慢速", callback_data="speed_slow"),
@@ -104,7 +164,11 @@ class KeyboardBuilder:
                 InlineKeyboardButton("💫 透明度", callback_data="opacity_settings")
             ],
             [
+<<<<<<< HEAD
                 InlineKeyboardButton("↩️ 返回弹幕快捷", callback_data="danmaku_quick_menu"),
+=======
+                InlineKeyboardButton("↩️ 返回弹幕控制", callback_data="danmaku_control"),
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
                 InlineKeyboardButton("🏠 主菜单", callback_data="main_menu")
             ]
         ]
@@ -220,6 +284,7 @@ class KeyboardBuilder:
         return InlineKeyboardMarkup(keyboard)
     
     @staticmethod
+<<<<<<< HEAD
     def statistics_menu() -> InlineKeyboardMarkup:
         """统计菜单（新增）"""
         keyboard = [
@@ -454,6 +519,8 @@ class KeyboardBuilder:
         return InlineKeyboardMarkup(keyboard)
     
     @staticmethod
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
     def confirmation(action: str, target: str = "") -> InlineKeyboardMarkup:
         """确认操作键盘"""
         keyboard = [
@@ -465,6 +532,7 @@ class KeyboardBuilder:
         return InlineKeyboardMarkup(keyboard)
     
     @staticmethod
+<<<<<<< HEAD
     def bulk_send_menu() -> InlineKeyboardMarkup:
         """批量发送菜单"""
         keyboard = [
@@ -573,6 +641,8 @@ class KeyboardBuilder:
         return InlineKeyboardMarkup(keyboard)
     
     @staticmethod
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
     def pagination(
         current_page: int, 
         total_pages: int, 
@@ -606,13 +676,18 @@ class KeyboardBuilder:
     def back_to_menu() -> InlineKeyboardMarkup:
         """返回主菜单键盘"""
         keyboard = [
+<<<<<<< HEAD
             [
                 InlineKeyboardButton("🏠 返回主菜单", callback_data="main_menu")
             ]
+=======
+            [InlineKeyboardButton("🏠 返回主菜单", callback_data="main_menu")]
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
         ]
         return InlineKeyboardMarkup(keyboard)
     
     @staticmethod
+<<<<<<< HEAD
     def content_moderation() -> InlineKeyboardMarkup:
         """内容审核菜单（新增）"""
         keyboard = [
@@ -852,10 +927,26 @@ class KeyboardBuilder:
         keyboard = [
             [
                 InlineKeyboardButton("⬅️ 返回审核菜单", callback_data="content_moderation"),
+=======
+    def logs_menu() -> InlineKeyboardMarkup:
+        """日志菜单键盘"""
+        keyboard = [
+            [
+                InlineKeyboardButton("📋 我的操作", callback_data="logs_my"),
+                InlineKeyboardButton("📊 全部操作", callback_data="logs_all")
+            ],
+            [
+                InlineKeyboardButton("🔄 刷新", callback_data="logs_refresh"),
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
                 InlineKeyboardButton("🏠 主菜单", callback_data="main_menu")
             ]
         ]
         return InlineKeyboardMarkup(keyboard)
 
+<<<<<<< HEAD
 # 创建键盘实例
+=======
+
+# 创建全局键盘构建器实例
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 keyboards = KeyboardBuilder()

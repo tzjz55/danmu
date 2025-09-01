@@ -3,19 +3,68 @@ version: '3.8'
 services:
   telegram-bot:
     build: .
+<<<<<<< HEAD
     container_name: danmaku-bot
+=======
+    container_name: danmaku-telegram-bot
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
     restart: unless-stopped
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
       - DANMAKU_API_KEY=${DANMAKU_API_KEY}
       - TMDB_API_KEY=${TMDB_API_KEY}
+<<<<<<< HEAD
       - DANMAKU_BASE_URL=http://154.12.85.19:7768
+=======
+      - DANMAKU_BASE_URL=${DANMAKU_BASE_URL:-http://154.12.85.19:7768}
+      - TMDB_BASE_URL=${TMDB_BASE_URL:-https://api.themoviedb.org/3}
+      - TMDB_IMAGE_URL=${TMDB_IMAGE_URL:-https://image.tmdb.org}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///data/bot.db}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
       - ADMIN_USER_IDS=${ADMIN_USER_IDS}
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
+<<<<<<< HEAD
+=======
+    networks:
+      - bot-network
+    depends_on:
+      - redis
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
+<<<<<<< HEAD
         max-file: "3"
+=======
+        max-file: "3"
+
+  redis:
+    image: redis:7-alpine
+    container_name: danmaku-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - bot-network
+    command: redis-server --appendonly yes
+
+  # 可选：添加监控服务
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: danmaku-watchtower
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: --interval 3600 --cleanup danmaku-telegram-bot
+
+volumes:
+  redis_data:
+
+networks:
+  bot-network:
+    driver: bridge
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103

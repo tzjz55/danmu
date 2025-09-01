@@ -14,6 +14,7 @@
 
 ## 快速开始
 
+<<<<<<< HEAD
 ### 方法一：Docker 一键部署（推荐）
 
 1. 安装 Docker Desktop
@@ -35,11 +36,18 @@ cp .env.example .env
 详细部署指南请查看 [DOCKER_DEPLOY.md](DOCKER_DEPLOY.md)
 
 ### 方法二：本地开发
+=======
+### 本地开发
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 
 1. 配置环境变量
 ```bash
 cp .env.example .env
+<<<<<<< HEAD
 # 编辑 .env 文件
+=======
+# 编辑 .env 文件，填入相应的 API 密钥
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 ```
 
 2. 快速启动（自动安装依赖）
@@ -53,6 +61,27 @@ pip install -r requirements.txt
 python bot.py
 ```
 
+<<<<<<< HEAD
+=======
+4. 测试项目
+```bash
+python test.py
+```
+
+### Docker 部署
+
+1. 配置环境变量
+```bash
+cp .env.example .env
+# 编辑 .env 文件
+```
+
+2. 构建并启动
+```bash
+docker-compose up -d
+```
+
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 ## 项目结构
 
 ```

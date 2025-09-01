@@ -1,5 +1,6 @@
 import aiohttp
 import asyncio
+<<<<<<< HEAD
 import time
 from typing import Dict, Any, Optional, Union
 from loguru import logger
@@ -51,10 +52,32 @@ class DanmakuAPIClient:
     async def __aenter__(self):
         """异步上下文管理器入口"""
         await self._ensure_session()
+=======
+from typing import Dict, Any, Optional
+from loguru import logger
+from tenacity import retry, stop_after_attempt, wait_exponential
+from config import config
+
+
+class DanmakuAPIClient:
+    """弹幕API客户端"""
+    
+    def __init__(self):
+        self.base_url = config.DANMAKU_BASE_URL
+        self.api_key = config.DANMAKU_API_KEY
+        self.session: Optional[aiohttp.ClientSession] = None
+    
+    async def __aenter__(self):
+        """异步上下文管理器入口"""
+        self.session = aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=30)
+        )
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
         return self
     
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """异步上下文管理器退出"""
+<<<<<<< HEAD
         # 不在这里关闭 session，由连接池管理
         self._last_activity = time.time()
     
@@ -108,6 +131,10 @@ class DanmakuAPIClient:
         )
         
         logger.info("创建新的 API 连接池")
+=======
+        if self.session:
+            await self.session.close()
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
     
     def _build_url(self, endpoint: str) -> str:
         """构建完整的API URL"""
@@ -118,6 +145,7 @@ class DanmakuAPIClient:
             url += f"?api_key={self.api_key}"
         return url
     
+<<<<<<< HEAD
     async def _rate_limit_check(self):
         """检查速率限制"""
         current_time = time.time()
@@ -190,10 +218,16 @@ class DanmakuAPIClient:
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
         retry=retry_if_exception_type((aiohttp.ClientError, asyncio.TimeoutError))
+=======
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=4, max=10)
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
     )
     async def _make_request(
         self, 
         method: str, 
+<<<<<<< HEAD
         endpoint: str,
         use_cache: bool = False,
         **kwargs
@@ -271,12 +305,33 @@ class DanmakuAPIClient:
                     error_text = await response.text()
                     logger.error(f"API请求失败: {response.status} - {error_text}")
                     self._update_stats(False, response_time, f"{response.status}: {error_text}")
+=======
+        endpoint: str, 
+        **kwargs
+    ) -> Dict[str, Any]:
+        """发送HTTP请求"""
+        if not self.session:
+            raise RuntimeError("Session not initialized. Use async context manager.")
+        
+        url = self._build_url(endpoint)
+        
+        try:
+            async with self.session.request(method, url, **kwargs) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    logger.info(f"API请求成功: {method} {endpoint}")
+                    return data
+                else:
+                    error_text = await response.text()
+                    logger.error(f"API请求失败: {response.status} - {error_text}")
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
                     raise aiohttp.ClientResponseError(
                         request_info=response.request_info,
                         history=response.history,
                         status=response.status,
                         message=error_text
                     )
+<<<<<<< HEAD
                     
         except aiohttp.ClientError as e:
             response_time = time.time() - start_time
@@ -341,11 +396,25 @@ class DanmakuAPIClient:
         """获取服务器状态（支持缓存）"""
         try:
             data = await self._make_request('GET', '/api/control/status', use_cache=True)
+=======
+        except aiohttp.ClientError as e:
+            logger.error(f"网络请求错误: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"未知错误: {e}")
+            raise
+    
+    async def get_status(self) -> Dict[str, Any]:
+        """获取服务器状态"""
+        try:
+            data = await self._make_request('GET', '/api/control/status')
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
             return {
                 'success': True,
                 'data': data,
                 'message': '状态获取成功'
             }
+<<<<<<< HEAD
         except aiohttp.ClientResponseError as e:
             error_msg = f'API错误 [{e.status}]: {e.message}'
             logger.error(f"获取状态失败: {error_msg}")
@@ -372,6 +441,14 @@ class DanmakuAPIClient:
                 'data': None,
                 'message': error_msg,
                 'error_type': 'unknown_error'
+=======
+        except Exception as e:
+            logger.error(f"获取状态失败: {e}")
+            return {
+                'success': False,
+                'data': None,
+                'message': f'获取状态失败: {str(e)}'
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
             }
     
     async def control_danmaku(
@@ -434,6 +511,7 @@ class DanmakuAPIClient:
         """
         return await self.control_danmaku('set_opacity', {'opacity': opacity})
     
+<<<<<<< HEAD
     async def send_danmaku(
         self, 
         text: str, 
@@ -443,23 +521,33 @@ class DanmakuAPIClient:
         duration: int = 5,
         **kwargs
     ) -> Dict[str, Any]:
+=======
+    async def send_danmaku(self, text: str, **kwargs) -> Dict[str, Any]:
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
         """发送弹幕
         
         Args:
             text: 弹幕内容
+<<<<<<< HEAD
             color: 弹幕颜色 (十六进制，如 #FF0000)
             position: 弹幕位置 (scroll/top/bottom)
             font_size: 字体大小 (12-48)
             duration: 显示时长 (秒)
             **kwargs: 其他弹幕参数
+=======
+            **kwargs: 其他弹幕参数（颜色、位置等）
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
         """
         payload = {
             'action': 'send',
             'text': text,
+<<<<<<< HEAD
             'color': color,
             'position': position,
             'font_size': max(12, min(48, font_size)),  # 限制字体大小范围
             'duration': max(1, min(30, duration)),     # 限制显示时长范围
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
             **kwargs
         }
         
@@ -481,6 +569,7 @@ class DanmakuAPIClient:
                 'data': None,
                 'message': f'弹幕发送失败: {str(e)}'
             }
+<<<<<<< HEAD
     
     async def send_styled_danmaku(
         self,
@@ -576,6 +665,8 @@ class DanmakuAPIClient:
                 'data': None,
                 'message': f'批量发送失败: {str(e)}'
             }
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 
 
 # 全局客户端实例

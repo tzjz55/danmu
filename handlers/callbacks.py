@@ -3,9 +3,12 @@ from telegram.ext import ContextTypes
 from loguru import logger
 
 from managers.user_manager import user_manager
+<<<<<<< HEAD
 from managers.template_manager import template_manager
 from managers.queue_manager import danmaku_queue
 from managers.content_filter import content_filter
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 from utils.keyboards import keyboards
 from clients.danmaku_client import danmaku_client
 from clients.tmdb_client import tmdb_client
@@ -42,6 +45,7 @@ async def button_callback_handler(update: Update, context: ContextTypes.DEFAULT_
             await handle_danmaku_action(query, "resume")
         elif callback_data.startswith("clear_danmaku"):
             await handle_danmaku_action(query, "clear")
+<<<<<<< HEAD
         elif callback_data == "danmaku_style_menu":
             await handle_danmaku_style_menu(query, context)
         elif callback_data.startswith("send_danmaku"):
@@ -97,6 +101,11 @@ async def button_callback_handler(update: Update, context: ContextTypes.DEFAULT_
         elif callback_data == "clear_queue":
             await handle_clear_queue(query, context)
         
+=======
+        elif callback_data.startswith("send_danmaku"):
+            await handle_send_danmaku_prompt(query, context)
+        
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
         # 设置功能
         elif callback_data.startswith("speed_"):
             await handle_speed_setting(query, callback_data)
@@ -109,6 +118,7 @@ async def button_callback_handler(update: Update, context: ContextTypes.DEFAULT_
         elif callback_data.startswith("movie_detail_"):
             await handle_movie_detail(query, callback_data)
         
+<<<<<<< HEAD
         # 内容审核功能
         elif callback_data == "content_moderation":
             await handle_content_moderation_menu(query, context)
@@ -131,6 +141,8 @@ async def button_callback_handler(update: Update, context: ContextTypes.DEFAULT_
         elif callback_data.startswith("reject_content_"):
             await handle_reject_content(query, callback_data)
         
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
         else:
             await query.edit_message_text("❓ 未知操作", reply_markup=keyboards.back_to_menu())
         
@@ -254,6 +266,7 @@ async def handle_movie_detail(query, callback_data):
         
         await query.edit_message_text(text, reply_markup=keyboards.movie_detail(movie_id))
     else:
+<<<<<<< HEAD
         await query.edit_message_text(f"❌ 获取失败", reply_markup=keyboards.back_to_menu())
 
 
@@ -796,3 +809,6 @@ async def handle_reject_content(query, callback_data):
         {'record_id': record_id},
         'success'
     )
+=======
+        await query.edit_message_text(f"❌ 获取失败", reply_markup=keyboards.back_to_menu())
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103

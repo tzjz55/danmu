@@ -1,5 +1,6 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 # 弹幕机器人一键部署脚本
 
 echo "🚀 弹幕机器人 Docker 一键部署"
@@ -67,6 +68,8 @@ else
     exit 1
 fi
 
+=======
+>>>>>>> d7713b91f7befb22e88fb9bbcf3ab5a17dfa2103
 # 弹幕机器人部署脚本
 # 使用方法: ./deploy.sh [start|stop|restart|update|logs|status]
 
